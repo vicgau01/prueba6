@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Mi trabajo individual para BigData",
+    "section": "",
+    "text": "Reutilizarhttps://creativecommons.org/licenses/by/4.0/deed.es"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Victor Gallego",
+    "section": "",
+    "text": "Esto blog es para presentar el trabajo individual para la asignatura “Programación y manejo de datos en la era Del Big Data”, optativa de GECO en la Facultad de Economía de la Universitat de València.\nLa web de la asignatura está aquí y los trabajos de mis compañeros de curso puedes verlos aquí.\nMi trabajo lleva por título : “Big Data en la Euroliga-ACB”. El objetivo es ofrecer una serie de curiosidades sobre las dos categorías, en concreto a cerca de los jugadores por parte de la NBA y de los equipos de Euroliga en la competición, más concretamente del Valencia Basket, como no.\nEl trabajo puede verse aquí\n\n\nReutilizarhttps://creativecommons.org/licenses/by/4.0/deed.es"
+  },
+  {
+    "objectID": "my_trabajo_BigData.html",
+    "href": "my_trabajo_BigData.html",
+    "title": "Big Data en la Euroliga-ACB",
+    "section": "",
+    "text": "El trabajo conssistirá de las siguientes partes:\n\nEn primer lugar, haremos una muy breve introducción de las dos competiciones que trataremos como son la NBA y Euroliga\nEn segundo lugar trataremos los jugadores de la NBA, más concretamente su país de procedencia y su altura representada como la histórica de los datos.\nEn tercer lugar comenzando con la Euroliga mostraremos los equipos con más victorias históricamente en la competición, así como el histórico de victorias dentro de este del Valencia Basket y sus mayores victorias en la competición."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#código-r",
+    "href": "my_trabajo_BigData.html#código-r",
+    "title": "Big Data en la Euroliga-ACB",
+    "section": "Código R",
+    "text": "Código R\n\n\nCódigo\n\n#A continuación las librerías empleadas\nlibrary(ggplot2)\nlibrary(tidyverse)\nlibrary(gapminder)\n\n#Mediante este código cargamos los dataset\n\neuroliga <- rio::import(file = \"./datos_trabajo/euroleague_dset_csv_03_20_upd.csv\")\njugadores_nba <- rio::import(file = \"./datos_trabajo/all_seasons.csv\")"
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#media-história-de-altura",
+    "href": "my_trabajo_BigData.html#media-história-de-altura",
+    "title": "Big Data en la Euroliga-ACB",
+    "section": "Media história de altura",
+    "text": "Media história de altura\nUn gran número de jugadores han pasado por la competición desde el año 96 y podemos observar los siguientes resultados:\n\n\nCódigo\nAltura <-ggplot(jugadores_nba) +\n  aes(x = \"\", y = player_height) +\n  geom_violin(adjust = 1L, scale = \"area\", fill = \"#440154\") +\n  labs(\n    x = \"<-- Densidad de jugadores -->\",\n    y = \"Altura en Centímetros\",\n    title = \"Altura en cm de los jugadores de la NBA\",\n    subtitle = \"Temporadas 1996-2021\"\n  ) +\n  ggthemes::theme_base()\n\nAltura\n\n\n\n\n\n\n\n\n\nDe los resultados del gráfico podemos observar que la altura más común de estos jugadores era de unos 2 metros y 8 centímetros, llamando la atención un pequeño numero de jugadores como serían Yao Ming que llegaban a los 2 metros 30 centimetros.\nNo obstante los bajitos también tenemos cabida en este deporte observando jugadores (aunque escasos) que apenas llegaban al metro setenta como el base de los Nuggets Earl Boykins o aunque un poco mas alto el mas conocido Iasiah Thomas de los Celtics."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#país-de-procedencia",
+    "href": "my_trabajo_BigData.html#país-de-procedencia",
+    "title": "Big Data en la Euroliga-ACB",
+    "section": "País de procedencia",
+    "text": "País de procedencia\nCambiando de tema, los datos siguientes nos arrojan un hecho y es que es más fácil llegar a la NBA midiendo 1,70 que siendo Español, pues según el siguiente gráfico:\n\n\nCódigo\ndf_jugadores_pais<- jugadores_nba %>% group_by(country) %>% summarise(NN=n()) %>%\n  slice_max(NN, n=4)\n\njug_pais_bar<-ggplot(df_jugadores_pais) +\n  aes(x =reorder(country,desc(NN)), y = NN) +\n  geom_col(fill = \"#440154\") +\n  labs(\n    x = \"País\",\n    y = \"Número\",\n    title = \"TOP 4 países con más jugadores NBA\",\n    subtitle = \"Desde 1996-2021\"\n  ) +\n  geom_text(aes(label=NN), vjust=0.001,hjust=0.5, color=\"black\",    \n            position = position_dodge(0.1),  size=4.0\n  )+\n  ggthemes::theme_par()\njug_pais_bar\n\n\n\n\n\n\n\n\n\nLos datos son arrolladores y es que la NBA tiene un claro sesgo estadounidense que rara vez pesca fuera de casa.\nPero esto tiene una explicación y es debido a todo el sistema de promoción desde los institutos, universidades con la NCAA la liga universitaria ,la NBA Summer League donde se prueban las futuras promesas en la temporada de verano sin olvidarse del Draft, una “subasta” por las futuras promesas del deporte que se llevarán los equipos en orden inverso al de la clasificación de liga."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#equipos-con-más-victorias",
+    "href": "my_trabajo_BigData.html#equipos-con-más-victorias",
+    "title": "Big Data en la Euroliga-ACB",
+    "section": "Equipos con más victorias",
+    "text": "Equipos con más victorias\nA continuación mostraré un gráfico a cerca de los equipos más victoriosos de la competición\n\n\nCódigo\nmost_wins <- euroliga%>%\n  select(DATE,AT,HT,WINNER)%>%\n  group_by(WINNER) %>% \n  mutate(victoria_num = sum( NN = n())) %>% \n  filter(victoria_num >= 40) %>% \n  arrange(victoria_num) %>% \n  mutate( suma_vic = cumsum(WINNER))%>%\n  arrange(desc(victoria_num))%>%\n  distinct(victoria_num)\nmost_wins\n#> # A tibble: 24 × 2\n#> # Groups:   WINNER [24]\n#>    WINNER           victoria_num\n#>    <chr>                   <int>\n#>  1 CSKA Moscow               339\n#>  2 Barcelona                 275\n#>  3 Panathinaikos             254\n#>  4 Real Madrid               252\n#>  5 Olympiacos                246\n#>  6 Maccabi Tel Aviv          234\n#>  7 Anadolu Efes SK           183\n#>  8 Fenerbahce Ulker          183\n#>  9 Zalgiris Kaunas           146\n#> 10 Unicaja                   138\n#> # … with 14 more rows\n\nmost_wins_graph <-ggplot(most_wins) +\n  aes(x = reorder(WINNER,desc(victoria_num)), y = victoria_num) +\n  geom_col(fill = \"#440154\") +\n  labs(\n    x = \"Equipo\",\n    y = \"Numero de victorias\",\n    title = \"Equipos con más victorias en Euroliga\",\n    subtitle = \"Entre 2003 y 2019\"\n  ) +\n  coord_flip() +\n  theme_minimal()+\n  geom_text(aes(label=victoria_num), vjust=0.25,hjust=0.99, color=\"white\",    \n            position = position_dodge(0.1),  size=5.0\n  )\nmost_wins_graph\n\n\n\n\n\n\n\n\n\nComo podemos ver, los resultados hacen honor a su fama, un total de 12 equipos superan las 100 victorias desde el 2003, donde ademas distan las victorias con los títulos ganados.\nNo encontramos sorpresas al ver el ránking, el primer equipo con 339 victorias es el CSKA de Moscú (chesca para los amigos), que no obstante a pesar de tener más victorias posee 8 títulos solo por detrás del Real Madrid con 10. El CSKA es un equipo actualmente en declive no obstante por el veto deportivo a los equipos rusos puesto que este año no participan en la competición y cuyas estrellas han emigrado a otros rivales.\nEn segundo lugar nos encontramos al F.C. Barcelona (y sí, se llama Futbol Club) con 275 victorias aunque mucho menos afortunado en títulos con tan solo 2 copas.\nEn tercer lugar encontramos al Panathinaikos con 254 victorias pero 6 títulos a sus espaldas (y una afición digamos peculiar).\nPara encontrar al Valencia Basket tenemos que irnos (por desgracia) a la 22ª posición con 43 victorias y es que (además de no ser muy buenos) tenemos la excusa de una de las mayores críticas a la Euroliga.\nLa mayor crítica de la competición es un sistema de licencias por las que es muy difícil llegar la Euroliga y mantenerse.\nEl sistema es el siguiente: hay una serie de licencias que reparte la Euroliga a unos equipos privilegiados ya sea por historia o potencia que pase lo que pase siempre jugarán la Euroliga, aunque queden últimos no descienden. Sería el caso de los grandes anteriormente mencionados o equipos españoles como la última licencia otorgada al Baskonia.\nEl resto de mortales, para llegar a la competición debemos ganar la liga local o la Eurocup (2ª division europea), cosa que se hace difícil aunque en la que el Valencia Basket es especialista subiendo en 2017 con la victoria de la Liga y cuatro eurocopas que nos permitieron jugar en la primera liga.\nNo obstante, la única forma de mantenerte si llegas a entrar es quedar dentro del top 8, si no volverás a descender."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#mayores-victorias-del-valencia-basket",
+    "href": "my_trabajo_BigData.html#mayores-victorias-del-valencia-basket",
+    "title": "Big Data en la Euroliga-ACB",
+    "section": "Mayores victorias del Valencia Basket",
+    "text": "Mayores victorias del Valencia Basket\nDejemos de lamentarlos y para finalizar el trabajo dejaré un mejor sabor de boca con las victorias en euroliga del VBC por mayor ventaja de puntos:\n\n\nCódigo\nValencia_eur_wins <- euroliga %>% filter(WINNER == \"Valencia\") %>%\n  slice_max(GAPT, n = 8)%>%\n  select(HT,AT,GAPT,DATE)\n\nvictorias_pts <- ggplot(Valencia_eur_wins) +\n  aes(x = reorder(AT, desc(GAPT)), y = GAPT, fill= HT)+\n  geom_col() +\n  scale_fill_manual(\n    values = c(Baskonia = \"#56CB26\",\n               Valencia = \"#622072\")\n  ) +\n  labs(\n    x = \"Equipo visitante\",\n    y = \"Diferencia de puntos\",\n    title = \"Partidos ganados por mayor diferencia de puntos\",\n    subtitle = \"A su paso por la Euroliga entre 2004 y 2018\",\n    fill = \"Juega en casa\"\n  ) +\n  coord_flip() +\n  ggthemes::theme_par()+\n  geom_text(aes(label=GAPT), vjust=0.25,hjust=0.99, color=\"white\",    \n            position = position_dodge(0.1),  size=5.0\n  )\nvictorias_pts\n\n\n\n\n\n\n\n\n\nLos primeros dos resultados nos dejan ver algo poco común en la competición europea y es una distancia de casi 40 puntos. Estas dos mayores victorias fueron contra el Unicaja de Málaga, gran histórico rival del Valencia Basket contra el que perdimos una final de Eurocup y contra el Neptunas lituano, ambos equipos mas bien débiles pero gran resultado.\nEl tercer mejor resultado fue contra el equipo Polaco Wroclaw (que no mentiré es la primera vez que escucho) por una ventaja de 29 puntos.\nEs en cuarta y quinta posición donde encontramos quizas las victorias mas destacables por puntuación de 26 y 25 puntos contra un Bayern de Munich y el gran CSKA de Moscú.\nAdemás como podréis observar hay un claro sesgo a ser el equipo local en estas victorias puesto que tan solo contra el Baskonia jugábamos fuera de casa. A esto en la jerga del club lo conocemos como el efecto “caldera taronja” puesto que tenemos una gran afición que se hace notar."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html",
+    "href": "posts/post-with-code/index.html",
+    "title": "Post With Code",
+    "section": "",
+    "text": "Código\n1 + 1\n#> [1] 2\n\n\n\n\n\nReutilizarhttps://creativecommons.org/licenses/by/4.0/deed.es"
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
+    "section": "",
+    "text": "Since this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts.\n\n\n\nReutilizarhttps://creativecommons.org/licenses/by/4.0/deed.es"
+  }
+]

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Víctor Gallego">
+<meta name="description" content="Este es mi trabajo individual para la asignatura">
+
+<title>Big Data en la Euroliga-ACB</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./logo.jpeg" rel="icon" type="image/jpeg">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": true,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Sín resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la busqueda",
+    "search-hide-matches-text": "Esconder resultados adicionales",
+    "search-more-match-text": "hay más resultados en este documento",
+    "search-more-matches-text": "más resultados en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Eviar"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="my_styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="./index.html">
+    <img src="./logo.jpeg" alt="">
+    <span class="navbar-title">Big Data en la Euroliga-ACB</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="./index.html"><i class="bi bi-house-door" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./my_trabajo_BigData.html" aria-current="page">Trabajo individual</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/vicgau01#---"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:<vicgau@alumni.uv.es>"><i class="bi bi-envelope" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-page-right">
+      <h1 class="title">Big Data en la Euroliga-ACB</h1>
+                  <div>
+        <div class="description">
+          <p>Este es mi trabajo individual para la asignatura</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Autor</div>
+      <div class="quarto-title-meta-contents">
+               <p>Víctor Gallego </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Fecha de Publicación</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">27 de diciembre de 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a></li>
+  <li><a href="#datos" id="toc-datos" class="nav-link" data-scroll-target="#datos">Datos</a>
+  <ul class="collapse">
+  <li><a href="#código-r" id="toc-código-r" class="nav-link" data-scroll-target="#código-r">Código R</a></li>
+  </ul></li>
+  <li><a href="#contextualización-que-es-la-nba-y-euroliga" id="toc-contextualización-que-es-la-nba-y-euroliga" class="nav-link" data-scroll-target="#contextualización-que-es-la-nba-y-euroliga">Contextualización, ¿Que es la NBA y Euroliga?</a></li>
+  <li><a href="#nba" id="toc-nba" class="nav-link" data-scroll-target="#nba">NBA</a>
+  <ul class="collapse">
+  <li><a href="#media-história-de-altura" id="toc-media-história-de-altura" class="nav-link" data-scroll-target="#media-história-de-altura">Media história de altura</a></li>
+  <li><a href="#país-de-procedencia" id="toc-país-de-procedencia" class="nav-link" data-scroll-target="#país-de-procedencia">País de procedencia</a></li>
+  </ul></li>
+  <li><a href="#euroliga" id="toc-euroliga" class="nav-link" data-scroll-target="#euroliga">Euroliga</a>
+  <ul class="collapse">
+  <li><a href="#equipos-con-más-victorias" id="toc-equipos-con-más-victorias" class="nav-link" data-scroll-target="#equipos-con-más-victorias">Equipos con más victorias</a></li>
+  <li><a href="#mayores-victorias-del-valencia-basket" id="toc-mayores-victorias-del-valencia-basket" class="nav-link" data-scroll-target="#mayores-victorias-del-valencia-basket">Mayores victorias del Valencia Basket</a></li>
+  </ul></li>
+  <li><a href="#bibliografía" id="toc-bibliografía" class="nav-link" data-scroll-target="#bibliografía">Bibliografía</a></li>
+  <li><a href="#fin" id="toc-fin" class="nav-link" data-scroll-target="#fin">FIN</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block column-page-right" id="quarto-document-content">
+
+
+
+
+<section id="introducción" class="level1">
+<h1>Introducción</h1>
+<p>El trabajo conssistirá de las siguientes partes:</p>
+<ul>
+<li><p>En primer lugar, haremos una muy breve introducción de las dos competiciones que trataremos como son la NBA y Euroliga</p></li>
+<li><p>En segundo lugar trataremos los jugadores de la NBA, más concretamente su país de procedencia y su altura representada como la histórica de los datos.</p></li>
+<li><p>En tercer lugar comenzando con la Euroliga mostraremos los equipos con más victorias históricamente en la competición, así como el histórico de victorias dentro de este del Valencia Basket y sus mayores victorias en la competición.</p></li>
+</ul>
+</section>
+<section id="datos" class="level1">
+<h1>Datos</h1>
+<p>Los datos de los jugadores los he obtenido <a href="https://www.kaggle.com/datasets/justinas/nba-players-data">aquí</a>, y los datos de Euroliga y Valencia Basket están sacados de <a href="https://www.kaggle.com/datasets/vadimgladky/euroleague-basketball-results-20032019">aquí</a>.</p>
+<section id="código-r" class="level2">
+<h2 class="anchored" data-anchor-id="código-r">Código R</h2>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#A continuación las librerías empleadas</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#Mediante este código cargamos los dataset</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a>euroliga <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="at">file =</span> <span class="st">"./datos_trabajo/euroleague_dset_csv_03_20_upd.csv"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10"></a>jugadores_nba <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="at">file =</span> <span class="st">"./datos_trabajo/all_seasons.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="contextualización-que-es-la-nba-y-euroliga" class="level1">
+<h1>Contextualización, ¿Que es la NBA y Euroliga?</h1>
+<p>La <strong>NBA</strong> o National Basketball League es la liga norteamericana de baloncesto, la más famosa y con mayores beneficios del mundo, en ella compiten las grandes estrellas del deporte, es por esto que buscaremos dentro de los datos que comprenden desde 1996 a 2021 la media histórica de altura en la competición así como el país de procedencia de las estrellas.</p>
+<p>La <strong>Euroliga</strong> por otra partes la primera liga europea de Baloncesto, reconocida incluso por los jugadores NBA como por ejemplo Luka Doncic que comenzó jugando en ella con el Real Madrid y que comentó que es la liga con “mayor exigencia”. Es por eso que mostraremos los equipos con más victorias en la competición con datos desde 2003 a 2019.</p>
+<p>Por último, haremos un inciso en el paso por la competición del Valencia Basket, cuyos colores corporativos figuran en la web , repasando sus mayores victorias por ventaja de puntos en la competición</p>
+</section>
+<section id="nba" class="level1">
+<h1>NBA</h1>
+<section id="media-história-de-altura" class="level2">
+<h2 class="anchored" data-anchor-id="media-história-de-altura">Media história de altura</h2>
+<p>Un gran número de jugadores han pasado por la competición desde el año 96 y podemos observar los siguientes resultados:</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>Altura <span class="ot">&lt;-</span><span class="fu">ggplot</span>(jugadores_nba) <span class="sc">+</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> player_height) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="fu">geom_violin</span>(<span class="at">adjust =</span> 1L, <span class="at">scale =</span> <span class="st">"area"</span>, <span class="at">fill =</span> <span class="st">"#440154"</span>) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-5"><a href="#cb2-5"></a>    <span class="at">x =</span> <span class="st">"&lt;-- Densidad de jugadores --&gt;"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6"></a>    <span class="at">y =</span> <span class="st">"Altura en Centímetros"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7"></a>    <span class="at">title =</span> <span class="st">"Altura en cm de los jugadores de la NBA"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8"></a>    <span class="at">subtitle =</span> <span class="st">"Temporadas 1996-2021"</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_base</span>()</span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a>Altura</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="my_trabajo_BigData_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" style="width:95.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>De los resultados del gráfico podemos observar que la altura más común de estos jugadores era de unos 2 metros y 8 centímetros, llamando la atención un pequeño numero de jugadores como serían Yao Ming que llegaban a los 2 metros 30 centimetros.</p>
+<p>No obstante los bajitos también tenemos cabida en este deporte observando jugadores (aunque escasos) que apenas llegaban al metro setenta como el base de los Nuggets Earl Boykins o aunque un poco mas alto el mas conocido Iasiah Thomas de los Celtics.</p>
+</section>
+<section id="país-de-procedencia" class="level2">
+<h2 class="anchored" data-anchor-id="país-de-procedencia">País de procedencia</h2>
+<p>Cambiando de tema, los datos siguientes nos arrojan un hecho y es que es más fácil llegar a la NBA midiendo 1,70 que siendo Español, pues según el siguiente gráfico:</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>df_jugadores_pais<span class="ot">&lt;-</span> jugadores_nba <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">NN=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">slice_max</span>(NN, <span class="at">n=</span><span class="dv">4</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a>jug_pais_bar<span class="ot">&lt;-</span><span class="fu">ggplot</span>(df_jugadores_pais) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="fu">aes</span>(<span class="at">x =</span><span class="fu">reorder</span>(country,<span class="fu">desc</span>(NN)), <span class="at">y =</span> NN) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#440154"</span>) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-8"><a href="#cb3-8"></a>    <span class="at">x =</span> <span class="st">"País"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9"></a>    <span class="at">y =</span> <span class="st">"Número"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10"></a>    <span class="at">title =</span> <span class="st">"TOP 4 países con más jugadores NBA"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11"></a>    <span class="at">subtitle =</span> <span class="st">"Desde 1996-2021"</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>NN), <span class="at">vjust=</span><span class="fl">0.001</span>,<span class="at">hjust=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">"black"</span>,    </span>
+<span id="cb3-14"><a href="#cb3-14"></a>            <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.1</span>),  <span class="at">size=</span><span class="fl">4.0</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a>  )<span class="sc">+</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_par</span>()</span>
+<span id="cb3-17"><a href="#cb3-17"></a>jug_pais_bar</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="my_trabajo_BigData_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" style="width:95.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Los datos son arrolladores y es que la NBA tiene un claro sesgo estadounidense que rara vez pesca fuera de casa.</p>
+<p>Pero esto tiene una explicación y es debido a todo el sistema de promoción desde los institutos, universidades con la NCAA la liga universitaria ,la NBA Summer League donde se prueban las futuras promesas en la temporada de verano sin olvidarse del Draft, una “subasta” por las futuras promesas del deporte que se llevarán los equipos en orden inverso al de la clasificación de liga.</p>
+</section>
+</section>
+<section id="euroliga" class="level1">
+<h1>Euroliga</h1>
+<p>Pasamos ahora a una competición muy distinta, aclamada por su dificultad técnica y gran nivel de sus equipos históricos.</p>
+<section id="equipos-con-más-victorias" class="level2">
+<h2 class="anchored" data-anchor-id="equipos-con-más-victorias">Equipos con más victorias</h2>
+<p>A continuación mostraré un gráfico a cerca de los equipos más victoriosos de la competición</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>most_wins <span class="ot">&lt;-</span> euroliga<span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="fu">select</span>(DATE,AT,HT,WINNER)<span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">group_by</span>(WINNER) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="#cb4-4"></a>  <span class="fu">mutate</span>(<span class="at">victoria_num =</span> <span class="fu">sum</span>( <span class="at">NN =</span> <span class="fu">n</span>())) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5"></a>  <span class="fu">filter</span>(victoria_num <span class="sc">&gt;=</span> <span class="dv">40</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="fu">arrange</span>(victoria_num) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-7"><a href="#cb4-7"></a>  <span class="fu">mutate</span>( <span class="at">suma_vic =</span> <span class="fu">cumsum</span>(WINNER))<span class="sc">%&gt;%</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(victoria_num))<span class="sc">%&gt;%</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>  <span class="fu">distinct</span>(victoria_num)</span>
+<span id="cb4-10"><a href="#cb4-10"></a>most_wins</span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; # A tibble: 24 × 2</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt; # Groups:   WINNER [24]</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt;    WINNER           victoria_num</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt;    &lt;chr&gt;                   &lt;int&gt;</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt;  1 CSKA Moscow               339</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt;  2 Barcelona                 275</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt;  3 Panathinaikos             254</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt;  4 Real Madrid               252</span></span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#&gt;  5 Olympiacos                246</span></span>
+<span id="cb4-20"><a href="#cb4-20"></a><span class="co">#&gt;  6 Maccabi Tel Aviv          234</span></span>
+<span id="cb4-21"><a href="#cb4-21"></a><span class="co">#&gt;  7 Anadolu Efes SK           183</span></span>
+<span id="cb4-22"><a href="#cb4-22"></a><span class="co">#&gt;  8 Fenerbahce Ulker          183</span></span>
+<span id="cb4-23"><a href="#cb4-23"></a><span class="co">#&gt;  9 Zalgiris Kaunas           146</span></span>
+<span id="cb4-24"><a href="#cb4-24"></a><span class="co">#&gt; 10 Unicaja                   138</span></span>
+<span id="cb4-25"><a href="#cb4-25"></a><span class="co">#&gt; # … with 14 more rows</span></span>
+<span id="cb4-26"><a href="#cb4-26"></a></span>
+<span id="cb4-27"><a href="#cb4-27"></a>most_wins_graph <span class="ot">&lt;-</span><span class="fu">ggplot</span>(most_wins) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28"></a>  <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(WINNER,<span class="fu">desc</span>(victoria_num)), <span class="at">y =</span> victoria_num) <span class="sc">+</span></span>
+<span id="cb4-29"><a href="#cb4-29"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#440154"</span>) <span class="sc">+</span></span>
+<span id="cb4-30"><a href="#cb4-30"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-31"><a href="#cb4-31"></a>    <span class="at">x =</span> <span class="st">"Equipo"</span>,</span>
+<span id="cb4-32"><a href="#cb4-32"></a>    <span class="at">y =</span> <span class="st">"Numero de victorias"</span>,</span>
+<span id="cb4-33"><a href="#cb4-33"></a>    <span class="at">title =</span> <span class="st">"Equipos con más victorias en Euroliga"</span>,</span>
+<span id="cb4-34"><a href="#cb4-34"></a>    <span class="at">subtitle =</span> <span class="st">"Entre 2003 y 2019"</span></span>
+<span id="cb4-35"><a href="#cb4-35"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-36"><a href="#cb4-36"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb4-37"><a href="#cb4-37"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb4-38"><a href="#cb4-38"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>victoria_num), <span class="at">vjust=</span><span class="fl">0.25</span>,<span class="at">hjust=</span><span class="fl">0.99</span>, <span class="at">color=</span><span class="st">"white"</span>,    </span>
+<span id="cb4-39"><a href="#cb4-39"></a>            <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.1</span>),  <span class="at">size=</span><span class="fl">5.0</span></span>
+<span id="cb4-40"><a href="#cb4-40"></a>  )</span>
+<span id="cb4-41"><a href="#cb4-41"></a>most_wins_graph</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="my_trabajo_BigData_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" style="width:95.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Como podemos ver, los resultados hacen honor a su fama, un total de 12 equipos superan las 100 victorias desde el 2003, donde ademas distan las victorias con los títulos ganados.</p>
+<p>No encontramos sorpresas al ver el ránking, el primer equipo con 339 victorias es el CSKA de Moscú (chesca para los amigos), que no obstante a pesar de tener más victorias posee 8 títulos solo por detrás del Real Madrid con 10. El CSKA es un equipo actualmente en declive no obstante por el veto deportivo a los equipos rusos puesto que este año no participan en la competición y cuyas estrellas han emigrado a otros rivales.</p>
+<p>En segundo lugar nos encontramos al F.C. Barcelona (y sí, se llama Futbol Club) con 275 victorias aunque mucho menos afortunado en títulos con tan solo 2 copas.</p>
+<p>En tercer lugar encontramos al Panathinaikos con 254 victorias pero 6 títulos a sus espaldas (y una afición digamos peculiar).</p>
+<p>Para encontrar al Valencia Basket tenemos que irnos (por desgracia) a la 22ª posición con 43 victorias y es que (además de no ser muy buenos) tenemos la excusa de una de las mayores críticas a la Euroliga.</p>
+<p>La mayor crítica de la competición es un sistema de licencias por las que es muy difícil llegar la Euroliga y mantenerse.</p>
+<p>El sistema es el siguiente: hay una serie de licencias que reparte la Euroliga a unos equipos privilegiados ya sea por historia o potencia que pase lo que pase siempre jugarán la Euroliga, aunque queden últimos no descienden. Sería el caso de los grandes anteriormente mencionados o equipos españoles como la última licencia otorgada al Baskonia.</p>
+<p>El resto de mortales, para llegar a la competición debemos ganar la liga local o la Eurocup (2ª division europea), cosa que se hace difícil aunque en la que el Valencia Basket es especialista subiendo en 2017 con la victoria de la Liga y cuatro eurocopas que nos permitieron jugar en la primera liga.</p>
+<p>No obstante, la única forma de mantenerte si llegas a entrar es quedar dentro del top 8, si no volverás a descender.</p>
+</section>
+<section id="mayores-victorias-del-valencia-basket" class="level2">
+<h2 class="anchored" data-anchor-id="mayores-victorias-del-valencia-basket">Mayores victorias del Valencia Basket</h2>
+<p>Dejemos de lamentarlos y para finalizar el trabajo dejaré un mejor sabor de boca con las victorias en euroliga del VBC por mayor ventaja de puntos:</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>Valencia_eur_wins <span class="ot">&lt;-</span> euroliga <span class="sc">%&gt;%</span> <span class="fu">filter</span>(WINNER <span class="sc">==</span> <span class="st">"Valencia"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">slice_max</span>(GAPT, <span class="at">n =</span> <span class="dv">8</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="fu">select</span>(HT,AT,GAPT,DATE)</span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a>victorias_pts <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Valencia_eur_wins) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>  <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(AT, <span class="fu">desc</span>(GAPT)), <span class="at">y =</span> GAPT, <span class="at">fill=</span> HT)<span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb5-9"><a href="#cb5-9"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Baskonia =</span> <span class="st">"#56CB26"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10"></a>               <span class="at">Valencia =</span> <span class="st">"#622072"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-13"><a href="#cb5-13"></a>    <span class="at">x =</span> <span class="st">"Equipo visitante"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14"></a>    <span class="at">y =</span> <span class="st">"Diferencia de puntos"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15"></a>    <span class="at">title =</span> <span class="st">"Partidos ganados por mayor diferencia de puntos"</span>,</span>
+<span id="cb5-16"><a href="#cb5-16"></a>    <span class="at">subtitle =</span> <span class="st">"A su paso por la Euroliga entre 2004 y 2018"</span>,</span>
+<span id="cb5-17"><a href="#cb5-17"></a>    <span class="at">fill =</span> <span class="st">"Juega en casa"</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_par</span>()<span class="sc">+</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>GAPT), <span class="at">vjust=</span><span class="fl">0.25</span>,<span class="at">hjust=</span><span class="fl">0.99</span>, <span class="at">color=</span><span class="st">"white"</span>,    </span>
+<span id="cb5-22"><a href="#cb5-22"></a>            <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.1</span>),  <span class="at">size=</span><span class="fl">5.0</span></span>
+<span id="cb5-23"><a href="#cb5-23"></a>  )</span>
+<span id="cb5-24"><a href="#cb5-24"></a>victorias_pts</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="my_trabajo_BigData_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" style="width:95.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Los primeros dos resultados nos dejan ver algo poco común en la competición europea y es una distancia de casi 40 puntos. Estas dos mayores victorias fueron contra el Unicaja de Málaga, gran histórico rival del Valencia Basket contra el que perdimos una final de Eurocup y contra el Neptunas lituano, ambos equipos mas bien débiles pero gran resultado.</p>
+<p>El tercer mejor resultado fue contra el equipo Polaco Wroclaw (que no mentiré es la primera vez que escucho) por una ventaja de 29 puntos.</p>
+<p>Es en cuarta y quinta posición donde encontramos quizas las victorias mas destacables por puntuación de 26 y 25 puntos contra un Bayern de Munich y el gran CSKA de Moscú.</p>
+<p>Además como podréis observar hay un claro sesgo a ser el equipo local en estas victorias puesto que tan solo contra el Baskonia jugábamos fuera de casa. A esto en la jerga del club lo conocemos como el efecto “caldera taronja” puesto que tenemos una gran afición que se hace notar.</p>
+</section>
+</section>
+<section id="bibliografía" class="level1">
+<h1>Bibliografía</h1>
+<p>Los datos los he obtenido de las siguientes direcciones:</p>
+<ol type="1">
+<li><p><a href="https://www.kaggle.com">Kaggle</a> , y para obtener cada una de las dos fuentes de datos: <a href="https://www.kaggle.com/datasets/justinas/nba-players-data">NBA</a> y <a href="https://www.kaggle.com/datasets/vadimgladky/euroleague-basketball-results-20032019">Euroliga</a></p></li>
+<li><p>Para las dudas que han surgido a lo largo del proceso de elaboración, se ha utilizado la <a href="https://perezp44.github.io/intro-ds-22-23-web/">web del profesor</a>.</p></li>
+</ol>
+</section>
+<section id="fin" class="level1">
+<h1>FIN</h1>
+<p>Espero haberos entretenido en este trabajo sobre el básket y el BigData, <strong>Amunt València!</strong></p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reutilizar</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.es">https://creativecommons.org/licenses/by/4.0/deed.es</a></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© 2022 Victor Gallego</div>   
+      <div class="nav-footer-center">Hecho con <a href="https://quarto.org">Quarto</a></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/vicgau01">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="mailto:<vicgau>@alumni.uv.es">
+      <i class="bi bi-envelope" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
